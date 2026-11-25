@@ -1,0 +1,772 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CHEMVERSE - Advanced Level Chemistry learning platform with Sinhala explanations, calculators, quizzes and interactive periodic table.">
+<title>CHEMVERSE | A/L Chemistry Sri Lanka</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#070b18;
+  --panel:#101a30;
+  --panel2:#17243d;
+  --text:#f2f7ff;
+  --muted:#a7b5ce;
+  --cyan:#35e5ff;
+  --purple:#a477ff;
+  --pink:#ff6ec7;
+  --border:rgba(130,190,255,.17);
+  --shadow:0 15px 45px rgba(0,0,0,.25);
+}
+body.light{
+  --bg:#f1f5fc;
+  --panel:#fff;
+  --panel2:#e6edf8;
+  --text:#101a30;
+  --muted:#53647d;
+  --cyan:#007fa8;
+  --purple:#7545cf;
+  --pink:#c43b91;
+  --border:rgba(30,60,100,.15);
+  --shadow:0 15px 40px rgba(30,60,100,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 10%,rgba(53,229,255,.08),transparent 30%),
+    radial-gradient(ellipse at 90% 25%,rgba(164,119,255,.09),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  transition:background .3s,color .3s;
+}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.container{width:min(1160px,92%);margin:auto}
+header{
+  position:sticky;top:0;z-index:1000;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+.nav{
+  min-height:72px;display:flex;align-items:center;
+  justify-content:space-between;gap:18px;
+}
+.logo{font-weight:900;font-size:1.4rem;letter-spacing:2px}
+.logo span{color:var(--cyan)}
+.navlinks{display:flex;gap:20px;align-items:center;list-style:none}
+.navlinks a{font-size:.84rem;color:var(--muted);font-weight:700}
+.navlinks a:hover{color:var(--cyan)}
+.navright{display:flex;gap:9px}
+.iconbtn,.menu{
+  border:1px solid var(--border);background:var(--panel);
+  color:var(--text);padding:9px 12px;border-radius:10px;
+}
+.menu{display:none}
+.hero{
+  min-height:650px;display:flex;align-items:center;
+  position:relative;overflow:hidden;padding:90px 0;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.15fr .85fr;
+  align-items:center;gap:35px;
+}
+.pill{
+  display:inline-block;border:1px solid var(--border);
+  color:var(--cyan);background:var(--panel);
+  border-radius:30px;padding:7px 14px;
+  font-size:.75rem;font-weight:800;letter-spacing:1px;
+}
+h1{font-size:clamp(3rem,7vw,5.8rem);line-height:1.04;letter-spacing:-3px;margin:22px 0}
+.gradient{
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+  color:transparent;background-clip:text;-webkit-background-clip:text;
+}
+.hero p{color:var(--muted);max-width:620px;font-size:1.05rem}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{
+  display:inline-flex;justify-content:center;align-items:center;
+  padding:12px 19px;border-radius:10px;font-weight:800;
+  border:1px solid var(--border);background:var(--panel);
+  color:var(--text);transition:.25s;
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 0 25px #35e5ff30}
+.primary{
+  border:0;color:#06101b;
+  background:linear-gradient(100deg,var(--cyan),#b18aff);
+}
+.molecule-scene{
+  min-height:360px;display:grid;place-items:center;position:relative;
+  perspective:800px;
+}
+.orbit{
+  width:245px;height:245px;border:1px solid #35e5ff80;
+  border-radius:50%;position:absolute;
+  transform:rotateX(65deg) rotateZ(20deg);
+  box-shadow:0 0 30px #35e5ff30,inset 0 0 30px #a477ff22;
+  animation:spin 14s linear infinite;
+}
+.orbit.two{width:300px;height:300px;transform:rotateX(70deg) rotateZ(-35deg);border-color:#a477ff80;animation-duration:20s}
+.orbit.three{width:185px;height:185px;transform:rotateY(65deg);border-color:#ff6ec780;animation-duration:11s}
+.atom{
+  width:76px;height:76px;border-radius:50%;display:grid;place-items:center;
+  font-size:1.6rem;font-weight:900;position:relative;z-index:2;
+  color:#07101d;background:radial-gradient(circle at 30% 25%,#fff,var(--cyan) 35%,#087cbd 85%);
+  box-shadow:0 0 40px #35e5ff90;
+}
+@keyframes spin{to{transform:rotateX(65deg) rotateZ(380deg)}}
+section{padding:85px 0}
+.section-title{text-align:center;max-width:720px;margin:0 auto 38px}
+.section-title small{color:var(--cyan);font-weight:900;letter-spacing:2px}
+.section-title h2{font-size:clamp(2rem,4vw,3rem);line-height:1.2;margin:9px 0}
+.section-title p,.muted{color:var(--muted)}
+.panel{
+  background:linear-gradient(145deg,var(--panel),var(--panel2));
+  border:1px solid var(--border);border-radius:17px;
+  padding:23px;box-shadow:var(--shadow);
+}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.topic-icon{font-size:2rem;margin-bottom:10px}
+.card h3{margin:5px 0 8px}
+.card p{color:var(--muted);font-size:.91rem}
+.card{transition:.25s}
+.card:hover{transform:translateY(-5px);border-color:var(--cyan)}
+.section-intro{margin-bottom:22px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0}
+.field{
+  background:var(--bg);color:var(--text);
+  border:1px solid var(--border);border-radius:9px;
+  padding:11px 13px;min-width:160px;max-width:100%;
+}
+.field:focus{outline:1px solid var(--cyan)}
+.periodic-grid{
+  display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;
+}
+.element{
+  min-height:74px;padding:6px 3px;text-align:center;
+  background:var(--panel2);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);transition:.2s;
+}
+.element:hover,.element.selected{
+  border-color:var(--cyan);box-shadow:0 0 15px #35e5ff35;
+  transform:translateY(-2px);
+}
+.element b{display:block;font-size:1.15rem;color:var(--cyan)}
+.element small{display:block;font-size:.61rem;color:var(--muted);overflow-wrap:anywhere}
+.element em{font-style:normal;font-size:.6rem}
+.element-detail{margin-top:18px;min-height:100px}
+.calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+label{display:block;font-size:.85rem;font-weight:700;margin:12px 0 5px}
+input,select,textarea{
+  width:100%;background:var(--bg);color:var(--text);
+  border:1px solid var(--border);border-radius:9px;padding:11px;
+}
+.result{
+  margin-top:13px;padding:12px;border-radius:9px;
+  background:var(--panel2);border:1px solid var(--border);
+  color:var(--cyan);font-weight:700;overflow-wrap:anywhere;
+}
+.quiz-question{font-size:1.1rem;font-weight:800;margin:12px 0}
+.option{
+  display:block;width:100%;text-align:left;margin:8px 0;
+  padding:12px;border:1px solid var(--border);
+  background:var(--bg);color:var(--text);border-radius:9px;
+}
+.option:hover{border-color:var(--cyan)}
+.option.correct{border-color:#39d98a;background:#39d98a18}
+.option.wrong{border-color:#ff6680;background:#ff668018}
+.note-tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px}
+.tab{padding:9px 13px;border:1px solid var(--border);border-radius:9px;background:var(--panel);color:var(--text)}
+.tab.active{border-color:var(--cyan);color:var(--cyan)}
+.note-content{min-height:180px}
+.reaction{border-left:3px solid var(--cyan);padding:12px 16px;margin:12px 0;background:var(--panel2);border-radius:0 9px 9px 0}
+.reaction strong{color:var(--cyan)}
+.molecule-output{
+  min-height:250px;display:grid;place-items:center;
+  background:radial-gradient(circle,#35e5ff15,transparent 60%),var(--bg);
+  border:1px solid var(--border);border-radius:14px;margin-top:15px;
+}
+.molecule-output svg{width:min(100%,440px);height:240px}
+.bond{stroke:var(--muted);stroke-width:5;stroke-linecap:round}
+.atom-circle{stroke:#fff8;stroke-width:2}
+.paper-q{padding:17px 0;border-bottom:1px solid var(--border)}
+footer{border-top:1px solid var(--border);padding:28px 0;text-align:center;color:var(--muted);font-size:.85rem}
+.hidden{display:none!important}
+.reveal{opacity:0;transform:translateY(20px);transition:.65s}
+.reveal.show{opacity:1;transform:translateY(0)}
+@media(max-width:900px){
+  .navlinks{gap:10px}.navlinks a{font-size:.74rem}
+  .hero-grid{grid-template-columns:1fr  .7fr}
+  .grid,.calc-grid{grid-template-columns:repeat(2,1fr)}
+  .periodic-grid{grid-template-columns:repeat(8,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  .menu{display:block}
+  .navlinks{
+    display:none;position:absolute;top:72px;left:0;right:0;
+    padding:20px 5%;background:var(--panel);
+    border-bottom:1px solid var(--border);flex-direction:column;align-items:flex-start;
+  }
+  .navlinks.open{display:flex}
+  .hero-grid{grid-template-columns:1fr}
+  .molecule-scene{min-height:260px}
+  .orbit.two{width:240px;height:240px}
+  .grid,.calc-grid{grid-template-columns:1fr}
+  .periodic-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+  h1{letter-spacing:-2px}
+  section{padding:65px 0}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="#home">CHEM<span>VERSE</span></a>
+    <ul class="navlinks" id="navlinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#periodic">Periodic Table</a></li>
+      <li><a href="#calculators">Calculators</a></li>
+      <li><a href="#notes">Study Notes</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+      <li><a href="#practice">Practice</a></li>
+    </ul>
+    <div class="navright">
+      <button class="iconbtn" id="themeBtn" aria-label="Toggle theme">☀️</button>
+      <button class="menu" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <span class="pill">A/L CHEMISTRY • SRI LANKA</span>
+      <h1>Discover the <span class="gradient">Chemistry</span> of Everything.</h1>
+      <p>
+        Learn chemistry with interactive tools, clear notes, calculations
+        and practice questions.
+        <br><span class="muted">රසායන විද්‍යාව පහසුවෙන් ඉගෙනගන්න — සිංහල පැහැදිලි කිරීම් සමඟ.</span>
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#periodic">Explore Periodic Table ↗</a>
+        <a class="btn" href="#calculators">Try Calculators</a>
+      </div>
+    </div>
+    <div class="molecule-scene reveal" aria-label="Animated molecular design">
+      <div class="orbit two"></div><div class="orbit"></div><div class="orbit three"></div>
+      <div class="atom">CHEM</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="section-title reveal">
+      <small>WELCOME TO CHEMVERSE</small>
+      <h2>Understand. Explore. <span class="gradient">Discover.</span></h2>
+      <p>A digital learning space for Sri Lankan Advanced Level Chemistry students.</p>
+    </div>
+    <div class="grid">
+      <article class="panel card reveal"><div class="topic-icon">⚛️</div><h3>Learn Concepts</h3><p>Understand chemistry concepts with short explanations and examples. සංකල්ප සරලව තේරුම් ගන්න.</p></article>
+      <article class="panel card reveal"><div class="topic-icon">🧮</div><h3>Calculate & Practice</h3><p>Use chemistry calculators to practise common numerical problems.</p></article>
+      <article class="panel card reveal"><div class="topic-icon">🧪</div><h3>Test Your Knowledge</h3><p>Practise original A/L-style questions and check your understanding.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="periodic">
+  <div class="container">
+    <div class="section-title reveal">
+      <small>ELEMENT EXPLORER</small><h2>Interactive Periodic Table</h2>
+      <p>Search an element or select it to see basic information. මූලද්‍රව්‍යයක් තෝරලා විස්තර බලන්න.</p>
+    </div>
+    <div class="panel reveal">
+      <div class="controls">
+        <input class="field" id="elementSearch" placeholder="Search element / symbol...">
+        <select class="field" id="elementFilter">
+          <option value="all">All elements</option>
+          <option value="nonmetal">Nonmetals</option>
+          <option value="noble">Noble gases</option>
+          <option value="alkali">Alkali metals</option>
+          <option value="halogen">Halogens</option>
+          <option value="metal">Other metals</option>
+        </select>
+      </div>
+      <div class="periodic-grid" id="periodicGrid"></div>
+      <div class="element-detail result" id="elementDetail">Select an element to see its details. / මූලද්‍රව්‍යයක් තෝරන්න.</div>
+      <p class="muted" style="font-size:.78rem;margin-top:12px">Educational overview. Element categories are simplified for this learning interface.</p>
+    </div>
+  </div>
+</section>
+
+<section id="calculators">
+  <div class="container">
+    <div class="section-title reveal">
+      <small>CHEMISTRY TOOLS</small><h2>Chemical Calculators</h2>
+      <p>Enter values and calculate. අගයන් ඇතුළත් කර පිළිතුර ලබාගන්න.</p>
+    </div>
+    <div class="calc-grid">
+      <div class="panel reveal">
+        <h3>🧪 Mole Calculator</h3>
+        <p class="muted">n = m / M</p>
+        <label for="mass">Mass (g)</label><input id="mass" type="number" min="0" step="any" placeholder="e.g. 18">
+        <label for="molarMass">Molar mass (g mol⁻¹)</label><input id="molarMass" type="number" min="0" step="any" placeholder="e.g. 18">
+        <button class="btn primary" id="moleBtn" style="margin-top:14px">Calculate moles</button>
+        <div class="result" id="moleResult">Result will appear here.</div>
+        <p class="muted">සිංහල: මවුල ප්‍රමාණය = ස්කන්ධය / මෝලර් ස්කන්ධය.</p>
+      </div>
+      <div class="panel reveal">
+        <h3>⚖️ Molar Mass Calculator</h3>
+        <p class="muted">Enter a formula e.g. H2O, CO2, Ca(OH)2</p>
+        <label for="formula">Chemical formula</label><input id="formula" placeholder="e.g. H2SO4">
+        <button class="btn primary" id="massBtn" style="margin-top:14px">Calculate molar mass</button>
+        <div class="result" id="massResult">Result will appear here.</div>
+        <p class="muted">සිංහල: සංයෝගයේ සූත්‍රය ඇතුළත් කරන්න.</p>
+      </div>
+      <div class="panel reveal">
+        <h3>💧 Concentration Calculator</h3>
+        <p class="muted">c = n / V</p>
+        <label for="moles">Amount (mol)</label><input id="moles" type="number" min="0" step="any" placeholder="e.g. 0.5">
+        <label for="volume">Volume (dm³)</label><input id="volume" type="number" min="0" step="any" placeholder="e.g. 0.25">
+        <button class="btn primary" id="concBtn" style="margin-top:14px">Calculate concentration</button>
+        <div class="result" id="concResult">Result will appear here.</div>
+        <p class="muted">සිංහල: සාන්ද්‍රණය = මවුල / පරිමාව (dm³).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="notes">
+  <div class="container">
+    <div class="section-title reveal">
+      <small>LEARNING LIBRARY</small><h2>Study Notes</h2>
+      <p>Core chemistry topics with short English and Sinhala explanations.</p>
+    </div>
+    <div class="panel reveal">
+      <div class="note-tabs">
+        <button class="tab active" data-note="physical">Physical Chemistry</button>
+        <button class="tab" data-note="inorganic">Inorganic Chemistry</button>
+        <button class="tab" data-note="organic">Organic Chemistry</button>
+      </div>
+      <div class="note-content" id="noteContent"></div>
+    </div>
+  </div>
+</section>
+
+<section id="organic">
+  <div class="container">
+    <div class="section-title reveal">
+      <small>REACTION LIBRARY</small><h2>Organic Chemistry Reactions</h2>
+      <p>Some introductory reaction patterns. Always check reagents and conditions in your syllabus and textbook.</p>
+    </div>
+    <div class="panel reveal">
+      <div class="reaction">
+        <strong>1. Alkene hydrogenation</strong>
+        <p>CH₂=CH₂ + H₂ → CH₃–CH₃</p>
+        <p class="muted">Condition: Ni catalyst, heat. සිංහල: ද්විත්ව බන්ධනයට හයිඩ්‍රජන් එකතු වීමෙන් ඇල්කේනයක් සෑදේ.</p>
+      </div>
+      <div class="reaction">
+        <strong>2. Ethanol oxidation</strong>
+        <p>CH₃CH₂OH + 2[O] → CH₃COOH + H₂O</p>
+        <p class="muted">Oxidising agent and conditions determine the product. සිංහල: එතනෝල් ඔක්සිකරණයෙන් එතනොයික් අම්ලය ලබාගත හැක.</p>
+      </div>
+      <div class="reaction">
+        <strong>3. Esterification</strong>
+        <p>CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O</p>
+        <p class="muted">Condition: concentrated H₂SO₄, heat. සිංහල: කාබොක්සිලික් අම්ලයක් සහ ඇල්කොහොලයක් ප්‍රතික්‍රියා කර එස්ටරයක් සාදයි.</p>
+      </div>
+      <div class="reaction">
+        <strong>4. Haloalkane hydrolysis</strong>
+        <p>CH₃CH₂Br + OH⁻ → CH₃CH₂OH + Br⁻</p>
+        <p class="muted">Aqueous hydroxide. සිංහල: හේලෝඇල්කේනයක halogen පරමාණුව වෙනුවට OH කාණ්ඩය ආදේශ වේ.</p>
+      </div>
+      <div class="reaction">
+        <strong>5. Addition of bromine to ethene</strong>
+        <p>CH₂=CH₂ + Br₂ → CH₂Br–CH₂Br</p>
+        <p class="muted">Bromine adds across the carbon-carbon double bond.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="visualizer">
+  <div class="container">
+    <div class="section-title reveal">
+      <small>MOLECULAR LAB</small><h2>Molecular Structure Visualizer</h2>
+      <p>Choose a simple molecule to view a schematic 2D structure with a 3D-style display.</p>
+    </div>
+    <div class="panel reveal">
+      <label for="moleculeSelect">Select molecule</label>
+      <select id="moleculeSelect" class="field">
+        <option value="water">Water (H₂O)</option>
+        <option value="co2">Carbon dioxide (CO₂)</option>
+        <option value="ammonia">Ammonia (NH₃)</option>
+        <option value="methane">Methane (CH₄)</option>
+      </select>
+      <div class="molecule-output" id="moleculeOutput"></div>
+      <div class="result" id="moleculeInfo"></div>
+      <p class="muted" style="font-size:.8rem;margin-top:10px">Schematic illustration only; not a precise molecular geometry or scale model.</p>
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="container">
+    <div class="section-title reveal">
+      <small>TEST YOUR KNOWLEDGE</small><h2>Chemistry MCQ Quiz</h2>
+      <p>Choose an answer and check your understanding. පිළිතුර තෝරා පරීක්ෂා කරන්න.</p>
+    </div>
+    <div class="panel reveal" id="quizBox">
+      <div class="muted" id="quizProgress">Question 1</div>
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div id="quizOptions"></div>
+      <div class="result" id="quizFeedback">Select an answer.</div>
+      <div class="actions">
+        <button class="btn primary" id="nextQuestion" disabled>Next Question →</button>
+        <button class="btn" id="restartQuiz">Restart Quiz</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="practice">
+  <div class="container">
+    <div class="section-title reveal">
+      <small>EXAM PREPARATION</small><h2>A/L Practice Questions</h2>
+      <p>Original practice questions written in an A/L-style format. These are not copied past-paper questions.</p>
+    </div>
+    <div class="panel reveal">
+      <div class="paper-q">
+        <strong>Question 01 – Mole concept</strong>
+        <p>Calculate the amount of substance in 9.0 g of water. (H = 1, O = 16)</p>
+        <button class="tab answerBtn">Show answer</button>
+        <p class="muted hidden answer">M(H₂O) = 18 g mol⁻¹. n = m/M = 9.0/18 = 0.50 mol. සිංහල: මුලින් මෝලර් ස්කන්ධය සොයා ඉන්පසු ස්කන්ධයෙන් බෙදන්න.</p>
+      </div>
+      <div class="paper-q">
+        <strong>Question 02 – Atomic structure</strong>
+        <p>An atom has 11 protons and 12 neutrons. State its atomic number and mass number.</p>
+        <button class="tab answerBtn">Show answer</button>
+        <p class="muted hidden answer">Atomic number = 11. Mass number = 11 + 12 = 23. සිංහල: පරමාණුක අංකය = ප්‍රෝටෝන ගණන; ස්කන්ධ අංකය = ප්‍රෝටෝන + නියුට්‍රෝන.</p>
+      </div>
+      <div class="paper-q">
+        <strong>Question 03 – Chemical bonding</strong>
+        <p>Explain why sodium chloride has a high melting point.</p>
+        <button class="tab answerBtn">Show answer</button>
+        <p class="muted hidden answer">It has a giant ionic lattice with strong electrostatic attractions between oppositely charged ions. A large amount of energy is needed to overcome these attractions. සිංහල: අයන අතර ඇති ප්‍රබල විද්‍යුත්ස්ථිතික ආකර්ෂණ බිඳීමට වැඩි ශක්තියක් අවශ්‍යයි.</p>
+      </div>
+      <div class="paper-q">
+        <strong>Question 04 – Equilibrium</strong>
+        <p>State the effect of increasing pressure on a gaseous equilibrium when the product side has fewer moles of gas.</p>
+        <button class="tab answerBtn">Show answer</button>
+        <p class="muted hidden answer">The equilibrium shifts towards the side with fewer gaseous moles. සිංහල: පීඩනය වැඩි කළ විට වායු මවුල අඩු පැත්තට සමතුලිතතාවය මාරු වේ.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> CHEMVERSE | A/L Chemistry Learning Platform</p>
+    <p>Learn Chemistry • Think Scientifically • Explore Further</p>
+    <p>Educational resource. Verify examinable content with the current Sri Lankan A/L syllabus and your teacher.</p>
+  </div>
+</footer>
+
+<script>
+// ---------------- THEME & NAVIGATION ----------------
+const themeBtn=document.getElementById("themeBtn");
+themeBtn.addEventListener("click",()=>{
+  document.body.classList.toggle("light");
+  themeBtn.textContent=document.body.classList.contains("light")?"🌙":"☀️";
+});
+const menuBtn=document.getElementById("menuBtn");
+const navlinks=document.getElementById("navlinks");
+menuBtn.addEventListener("click",()=>{
+  navlinks.classList.toggle("open");
+  menuBtn.textContent=navlinks.classList.contains("open")?"✕":"☰";
+});
+document.querySelectorAll(".navlinks a").forEach(a=>a.addEventListener("click",()=>{
+  navlinks.classList.remove("open");menuBtn.textContent="☰";
+}));
+document.getElementById("year").textContent=new Date().getFullYear();
+
+// ---------------- SCROLL ANIMATIONS ----------------
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("show");
+      revealObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el));
+
+// ---------------- PERIODIC TABLE ----------------
+const rawElements=[
+["H","Hydrogen"],["He","Helium"],["Li","Lithium"],["Be","Beryllium"],["B","Boron"],["C","Carbon"],["N","Nitrogen"],["O","Oxygen"],["F","Fluorine"],["Ne","Neon"],
+["Na","Sodium"],["Mg","Magnesium"],["Al","Aluminium"],["Si","Silicon"],["P","Phosphorus"],["S","Sulfur"],["Cl","Chlorine"],["Ar","Argon"],
+["K","Potassium"],["Ca","Calcium"],["Sc","Scandium"],["Ti","Titanium"],["V","Vanadium"],["Cr","Chromium"],["Mn","Manganese"],["Fe","Iron"],["Co","Cobalt"],["Ni","Nickel"],["Cu","Copper"],["Zn","Zinc"],
+["Ga","Gallium"],["Ge","Germanium"],["As","Arsenic"],["Se","Selenium"],["Br","Bromine"],["Kr","Krypton"],
+["Rb","Rubidium"],["Sr","Strontium"],["Y","Yttrium"],["Zr","Zirconium"],["Nb","Niobium"],["Mo","Molybdenum"],["Tc","Technetium"],["Ru","Ruthenium"],["Rh","Rhodium"],["Pd","Palladium"],["Ag","Silver"],["Cd","Cadmium"],
+["In","Indium"],["Sn","Tin"],["Sb","Antimony"],["Te","Tellurium"],["I","Iodine"],["Xe","Xenon"],
+["Cs","Caesium"],["Ba","Barium"],["La","Lanthanum"],["Ce","Cerium"],["Pr","Praseodymium"],["Nd","Neodymium"],["Pm","Promethium"],["Sm","Samarium"],["Eu","Europium"],["Gd","Gadolinium"],["Tb","Terbium"],["Dy","Dysprosium"],["Ho","Holmium"],["Er","Erbium"],["Tm","Thulium"],["Yb","Ytterbium"],["Lu","Lutetium"],
+["Hf","Hafnium"],["Ta","Tantalum"],["W","Tungsten"],["Re","Rhenium"],["Os","Osmium"],["Ir","Iridium"],["Pt","Platinum"],["Au","Gold"],["Hg","Mercury"],
+["Tl","Thallium"],["Pb","Lead"],["Bi","Bismuth"],["Po","Polonium"],["At","Astatine"],["Rn","Radon"],
+["Fr","Francium"],["Ra","Radium"],["Ac","Actinium"],["Th","Thorium"],["Pa","Protactinium"],["U","Uranium"],["Np","Neptunium"],["Pu","Plutonium"],["Am","Americium"],["Cm","Curium"],["Bk","Berkelium"],["Cf","Californium"],["Es","Einsteinium"],["Fm","Fermium"],["Md","Mendelevium"],["No","Nobelium"],["Lr","Lawrencium"],
+["Rf","Rutherfordium"],["Db","Dubnium"],["Sg","Seaborgium"],["Bh","Bohrium"],["Hs","Hassium"],["Mt","Meitnerium"],["Ds","Darmstadtium"],["Rg","Roentgenium"],["Cn","Copernicium"],["Nh","Nihonium"],["Fl","Flerovium"],["Mc","Moscovium"],["Lv","Livermorium"],["Ts","Tennessine"],["Og","Oganesson"]
+];
+const noble=["He","Ne","Ar","Kr","Xe","Rn","Og"];
+const alkali=["Li","Na","K","Rb","Cs","Fr"];
+const nonmetal=["H","C","N","O","P","S","Se"];
+const halogen=["F","Cl","Br","I","At","Ts"];
+function category(symbol){
+  if(noble.includes(symbol))return "noble gas";
+  if(alkali.includes(symbol))return "alkali metal";
+  if(halogen.includes(symbol))return "halogen";
+  if(nonmetal.includes(symbol))return "nonmetal";
+  if(["B","Si","Ge","As","Sb","Te","Po"].includes(symbol))return "metalloid";
+  return "metal";
+}
+const periodicGrid=document.getElementById("periodicGrid");
+function renderElements(){
+  const query=document.getElementById("elementSearch").value.toLowerCase().trim();
+  const filter=document.getElementById("elementFilter").value;
+  periodicGrid.innerHTML="";
+  rawElements.forEach(([symbol,name],index)=>{
+    const number=index+1,cat=category(symbol);
+    const matches=(name.toLowerCase().includes(query)||symbol.toLowerCase().includes(query)||String(number)===query);
+    const groupMatch=filter==="all"||
+      (filter==="noble"&&cat==="noble gas")||
+      (filter==="alkali"&&cat==="alkali metal")||
+      (filter==="halogen"&&cat==="halogen")||
+      (filter==="nonmetal"&&cat==="nonmetal")||
+      (filter==="metal"&&cat==="metal");
+    if(!matches||!groupMatch)return;
+    const button=document.createElement("button");
+    button.className="element";
+    button.innerHTML=`<em>${number}</em><b>${symbol}</b><small>${name}</small>`;
+    button.addEventListener("click",()=>{
+      document.querySelectorAll(".element").forEach(x=>x.classList.remove("selected"));
+      button.classList.add("selected");
+      document.getElementById("elementDetail").innerHTML=
+        `<strong>${number}. ${name} (${symbol})</strong><br>Category: ${cat}<br>සිංහල: ${name} මූලද්‍රව්‍යය පිළිබඳ වැඩිදුර විස්තර සඳහා ඔබගේ Periodic Table සහ පෙළපොත පරිශීලනය කරන්න.`;
+    });
+    periodicGrid.appendChild(button);
+  });
+}
+document.getElementById("elementSearch").addEventListener("input",renderElements);
+document.getElementById("elementFilter").addEventListener("change",renderElements);
+renderElements();
+
+// ---------------- CHEMISTRY CALCULATORS ----------------
+document.getElementById("moleBtn").addEventListener("click",()=>{
+  const m=Number(document.getElementById("mass").value);
+  const M=Number(document.getElementById("molarMass").value);
+  const out=document.getElementById("moleResult");
+  if(!(m>=0)||!(M>0)||document.getElementById("mass").value===""||document.getElementById("molarMass").value===""){
+    out.textContent="Enter a mass ≥ 0 and a molar mass > 0.";return;
+  }
+  out.textContent=`Amount = ${m/M} mol`;
+});
+document.getElementById("concBtn").addEventListener("click",()=>{
+  const n=Number(document.getElementById("moles").value);
+  const V=Number(document.getElementById("volume").value);
+  const out=document.getElementById("concResult");
+  if(!(n>=0)||!(V>0)||document.getElementById("moles").value===""||document.getElementById("volume").value===""){
+    out.textContent="Enter amount ≥ 0 and volume > 0 dm³.";return;
+  }
+  out.textContent=`Concentration = ${(n/V).toFixed(5)} mol dm⁻³`;
+});
+
+// Simplified formula parser supporting element symbols, numbers and brackets.
+const atomicMass={
+ H:1.008,He:4.003,Li:6.94,Be:9.012,B:10.81,C:12.011,N:14.007,O:15.999,F:18.998,
+ Na:22.990,Mg:24.305,Al:26.982,Si:28.085,P:30.974,S:32.06,Cl:35.45,K:39.098,
+ Ca:40.078,Cr:51.996,Mn:54.938,Fe:55.845,Co:58.933,Ni:58.693,Cu:63.546,Zn:65.38,
+ Br:79.904,Ag:107.868,I:126.904,Ba:137.327,Au:196.967,Hg:200.592,Pb:207.2
+};
+function calculateFormulaMass(formula){
+  let pos=0;
+  function parseGroup(){
+    let total=0;
+    while(pos<formula.length){
+      if(formula[pos]===")"){pos++;return total;}
+      if(formula[pos]==="("){pos++;let inner=parseGroup();let count=readNumber();total+=inner*count;continue;}
+      const match=formula.slice(pos).match(/^([A-Z][a-z]?)/);
+      if(!match)throw new Error("Invalid formula near: "+formula.slice(pos));
+      const symbol=match[1];pos+=symbol.length;
+      if(!(symbol in atomicMass))throw new Error("Atomic mass not included for "+symbol);
+      total+=atomicMass[symbol]*readNumber();
+    }
+    return total;
+  }
+  function readNumber(){
+    const match=formula.slice(pos).match(/^\d+/);
+    if(!match)return 1;
+    pos+=match[0].length;return Number(match[0]);
+  }
+  const result=parseGroup();
+  if(pos!==formula.length)throw new Error("Check brackets and formula.");
+  return result;
+}
+document.getElementById("massBtn").addEventListener("click",()=>{
+  const formula=document.getElementById("formula").value.trim();
+  const out=document.getElementById("massResult");
+  if(!formula){out.textContent="Enter a chemical formula.";return;}
+  try{
+    if(!/^[A-Za-z0-9()]+$/.test(formula))throw new Error("Use element symbols, numbers and brackets only.");
+    const mass=calculateFormulaMass(formula);
+    out.textContent=`Molar mass of ${formula} = ${mass.toFixed(3)} g mol⁻¹`;
+  }catch(error){out.textContent=error.message;}
+});
+
+// ---------------- STUDY NOTES ----------------
+const notes={
+ physical:{
+  title:"Physical Chemistry",
+  points:[
+   ["Mole concept","The mole is the SI unit for amount of substance. One mole contains the Avogadro constant number of specified entities.","සිංහල: මවුලය යනු ද්‍රව්‍ය ප්‍රමාණය මනින ඒකකයයි. n = m/M යන සම්බන්ධතාවය භාවිතයෙන් මවුල ගණනය කළ හැක."],
+   ["Chemical equilibrium","At dynamic equilibrium, forward and reverse reaction rates are equal. Concentrations remain constant at a fixed temperature.","සිංහල: ගතික සමතුලිතතාවයේදී ඉදිරි හා පසු ප්‍රතික්‍රියා වේග සමාන වේ. සාන්ද්‍රණ ස්ථාවරව පවතී."],
+   ["Reaction kinetics","Reaction rate describes the change in concentration of a reactant or product per unit time.","සිංහල: ඒකක කාලයකදී ප්‍රතික්‍රියාකාරකයක හෝ නිෂ්පාදනයක සාන්ද්‍රණය වෙනස් වන වේගයයි."]
+  ]
+ },
+ inorganic:{
+  title:"Inorganic Chemistry",
+  points:[
+   ["Atomic structure","Atoms contain protons and neutrons in the nucleus, with electrons occupying orbitals around the nucleus.","සිංහල: න්‍යෂ්ටියේ ප්‍රෝටෝන හා නියුට්‍රෝන ඇත. ඉලෙක්ට්‍රෝන න්‍යෂ්ටිය වටා ඇති orbital වල පවතී."],
+   ["Chemical bonding","Ionic bonding involves electrostatic attraction between oppositely charged ions. Covalent bonding involves shared electron pairs.","සිංහල: අයනික බන්ධනයේදී විරුද්ධ ආරෝපිත අයන අතර ආකර්ෂණය ඇතිවේ. සහසංයුජ බන්ධනයේදී ඉලෙක්ට්‍රෝන යුගල හවුලේ භාවිතා වේ."],
+   ["Periodic trends","Atomic radius, ionisation energy and electronegativity show trends across periods and down groups.","සිංහල: ආවර්ත හා කාණ්ඩ ඔස්සේ පරමාණුක අරය, අයනීකරණ ශක්තිය සහ විද්‍යුත් ඍණතාවයේ ප්‍රවණතා වෙනස් වේ."]
+  ]
+ },
+ organic:{
+  title:"Organic Chemistry",
+  points:[
+   ["Functional groups","Functional groups are atoms or groups of atoms that give organic compounds characteristic chemical reactions.","සිංහල: කාබනික සංයෝගයක විශේෂිත ප්‍රතික්‍රියා තීරණය කරන පරමාණු හෝ පරමාණු කාණ්ඩ functional groups ලෙස හැඳින්වේ."],
+   ["Isomerism","Isomers have the same molecular formula but different arrangements of atoms.","සිංහල: අණුක සූත්‍රය සමාන වුවත් පරමාණු සැකැස්ම වෙනස් සංයෝග සමාවයවික වේ."],
+   ["Reaction types","Common organic reaction types include addition, substitution, elimination and oxidation.","සිංහල: කාබනික ප්‍රතික්‍රියා අතර එකතු වීම, ආදේශනය, ඉවත් වීම සහ ඔක්සිකරණය ඇතුළත් වේ."]
+  ]
+ }
+};
+function showNote(key){
+ const note=notes[key];
+ document.getElementById("noteContent").innerHTML=
+ `<h3>${note.title}</h3>`+note.points.map(p=>
+ `<div class="reaction"><strong>${p[0]}</strong><p>${p[1]}</p><p class="muted">${p[2]}</p></div>`
+ ).join("");
+ document.querySelectorAll(".tab[data-note]").forEach(b=>b.classList.toggle("active",b.dataset.note===key));
+}
+document.querySelectorAll(".tab[data-note]").forEach(b=>b.addEventListener("click",()=>showNote(b.dataset.note)));
+showNote("physical");
+
+// ---------------- MOLECULE VISUALIZER ----------------
+const molecules={
+ water:{
+  name:"Water • H₂O",
+  info:"Bent molecular shape. The H–O–H bond angle is approximately 104.5°.",
+  atoms:[["O",220,110,34,"#e94b62"],["H",135,175,23,"#eaf2ff"],["H",305,175,23,"#eaf2ff"]],
+  bonds:[[220,110,135,175],[220,110,305,175]]
+ },
+ co2:{
+  name:"Carbon dioxide • CO₂",
+  info:"Linear molecular shape. The O=C=O bond angle is 180°.",
+  atoms:[["C",220,120,29,"#64748b"],["O",110,120,32,"#e94b62"],["O",330,120,32,"#e94b62"]],
+  bonds:[[220,120,110,120],[220,120,330,120]]
+ },
+ ammonia:{
+  name:"Ammonia • NH₃",
+  info:"Trigonal pyramidal molecular shape. The H–N–H bond angle is approximately 107°.",
+  atoms:[["N",220,105,32,"#3b82f6"],["H",130,175,22,"#eaf2ff"],["H",310,175,22,"#eaf2ff"],["H",220,210,22,"#eaf2ff"]],
+  bonds:[[220,105,130,175],[220,105,310,175],[220,105,220,210]]
+ },
+ methane:{
+  name:"Methane • CH₄",
+  info:"Tetrahedral molecular shape. The H–C–H bond angle is approximately 109.5°.",
+  atoms:[["C",220,120,30,"#64748b"],["H",130,65,22,"#eaf2ff"],["H",310,65,22,"#eaf2ff"],["H",130,185,22,"#eaf2ff"],["H",310,185,22,"#eaf2ff"]],
+  bonds:[[220,120,130,65],[220,120,310,65],[220,120,130,185],[220,120,310,185]]
+ }
+};
+function renderMolecule(key){
+ const m=molecules[key];
+ const bondSvg=m.bonds.map(b=>`<line class="bond" x1="${b[0]}" y1="${b[1]}" x2="${b[2]}" y2="${b[3]}"/>`).join("");
+ const atomSvg=m.atoms.map(a=>`<circle class="atom-circle" cx="${a[1]}" cy="${a[2]}" r="${a[3]}" fill="${a[4]}"/><text x="${a[1]}" y="${a[2]+6}" text-anchor="middle" fill="#101827" font-size="17" font-weight="bold">${a[0]}</text>`).join("");
+ document.getElementById("moleculeOutput").innerHTML=`<svg viewBox="0 0 440 250" role="img" aria-label="${m.name} molecular diagram">${bondSvg}${atomSvg}</svg>`;
+ document.getElementById("moleculeInfo").textContent=m.name+" — "+m.info;
+}
+document.getElementById("moleculeSelect").addEventListener("change",e=>renderMolecule(e.target.value));
+renderMolecule("water");
+
+// ---------------- MCQ QUIZ ----------------
+const questions=[
+ {q:"What is the SI unit for amount of substance?",o:["Kilogram","Mole","Litre","Kelvin"],a:1,e:"The mole (mol) is the SI unit for amount of substance. / ද්‍රව්‍ය ප්‍රමාණයේ SI ඒකකය මවුලයයි."},
+ {q:"What is the atomic number of oxygen?",o:["6","8","16","18"],a:1,e:"Oxygen has 8 protons, so its atomic number is 8."},
+ {q:"Which bond involves sharing electron pairs?",o:["Ionic","Metallic","Covalent","Hydrogen"],a:2,e:"A covalent bond involves shared electron pair(s). / සහසංයුජ බන්ධනයේදී ඉලෙක්ට්‍රෝන හවුලේ භාවිතා වේ."},
+ {q:"What is the molar mass of water approximately?",o:["16 g mol⁻¹","17 g mol⁻¹","18 g mol⁻¹","20 g mol⁻¹"],a:2,e:"H₂O = (2 × 1) + 16 = 18 g mol⁻¹."},
+ {q:"Which gas is a noble gas?",o:["Oxygen","Nitrogen","Chlorine","Neon"],a:3,e:"Neon is a Group 18 noble gas."},
+ {q:"What happens to equilibrium when pressure increases in a gaseous system?",o:["Always shifts left","Shifts to fewer gas moles","Shifts to more gas moles","No possible effect"],a:1,e:"For a gaseous equilibrium, increasing pressure favours the side with fewer moles of gas, if the gas mole numbers differ."}
+];
+let qIndex=0,score=0,answered=false;
+function renderQuestion(){
+ const q=questions[qIndex];answered=false;
+ document.getElementById("quizProgress").textContent=`Question ${qIndex+1} of ${questions.length} • Score: ${score}`;
+ document.getElementById("quizQuestion").textContent=q.q;
+ document.getElementById("quizFeedback").textContent="Select an answer.";
+ document.getElementById("nextQuestion").disabled=true;
+ const box=document.getElementById("quizOptions");box.innerHTML="";
+ q.o.forEach((option,i)=>{
+  const b=document.createElement("button");b.className="option";b.textContent=String.fromCharCode(65+i)+". "+option;
+  b.addEventListener("click",()=>{
+   if(answered)return;answered=true;
+   const correct=i===q.a;
+   if(correct)score++;
+   [...box.children].forEach((button,j)=>{
+    button.disabled=true;
+    if(j===q.a)button.classList.add("correct");
+    else if(j===i)button.classList.add("wrong");
+   });
+   document.getElementById("quizFeedback").textContent=(correct?"Correct! ":"Not quite. ")+q.e;
+   document.getElementById("nextQuestion").disabled=false;
+  });
+  box.appendChild(b);
+ });
+}
+document.getElementById("nextQuestion").addEventListener("click",()=>{
+ if(!answered)return;
+ if(qIndex<questions.length-1){qIndex++;renderQuestion();}
+ else{
+  document.getElementById("quizQuestion").textContent=`Quiz completed! Your score: ${score}/${questions.length}`;
+  document.getElementById("quizOptions").innerHTML="";
+  document.getElementById("quizFeedback").textContent="Well done! / හොඳ උත්සාහයක්!";
+  document.getElementById("nextQuestion").disabled=true;
+  document.getElementById("quizProgress").textContent="Completed";
+ }
+});
+document.getElementById("restartQuiz").addEventListener("click",()=>{qIndex=0;score=0;renderQuestion();});
+renderQuestion();
+
+// ---------------- PRACTICE ANSWERS ----------------
+document.querySelectorAll(".answerBtn").forEach(button=>{
+ button.addEventListener("click",()=>{
+  const answer=button.nextElementSibling;
+  answer.classList.toggle("hidden");
+  button.textContent=answer.classList.contains("hidden")?"Show answer":"Hide answer";
+ });
+});
+</script>
+</body>
+</html>
